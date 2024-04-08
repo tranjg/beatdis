@@ -10,7 +10,9 @@ export default function RegisterForm() {
             <input type="text" placeholder="Artist Name"/>
             <input type="text" placeholder="Email"/>
             <input type="password" placeholder="Password"/>
-            <button className="bg-purple-600 rounded-md text-white font-bold cursor-pointer px-6 py-2">Register</button>
+            <button className="bg-purple-600 border overflow-hidden rounded-md text-white font-bold cursor-pointer px-6 py-2 transition-all duration-200 ease-out hover:border-1 hover:border-purple-600  hover:bg-white hover:text-purple-600">
+                Register
+            </button>
 
             <div className="bg-red-500 rounded-md text-white w-fit text-sm py-1 px-3 mt-2"> Error message</div>
 
