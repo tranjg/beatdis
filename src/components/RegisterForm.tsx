@@ -9,7 +9,7 @@ export default function RegisterForm() {
     const [artistName, setArtistName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("User already exists");
+    const [error, setError] = useState("");
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -24,8 +24,8 @@ export default function RegisterForm() {
         try {
             
             const res = await axios.post("/api/register", user);
-
-            if (res.data.ok) {
+            
+            if (res.data) {
                 const form = e.target as HTMLFormElement;
                 form.reset();
             } else {
