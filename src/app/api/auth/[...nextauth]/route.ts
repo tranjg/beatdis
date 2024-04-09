@@ -1,6 +1,9 @@
+import prisma from "@/utils/connect.ts";
 import { AuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
+
+const bcrypt = require('bcryptjs');
 
 export const authOptions: AuthOptions = {
     providers: [
@@ -9,8 +12,32 @@ export const authOptions: AuthOptions = {
             credentials: {},
 
             async authorize(credentials) {
-                const user = { id: "1" };
-                return user
+                const {email, password} = credentials;
+
+                try {
+                    const user = await prisma.user.findUnique({
+                        where: {
+                            email: email
+                        }
+                    })
+
+                    if (!user) {
+                        return null;
+                    }
+
+                    const passwordsMatch = await bcrypt.compare(password, user.password);
+
+                    console.log("PW Match: ", passwordsMatch )
+                    
+                    if (!passwordsMatch) {
+                        return null
+                    }
+
+                    return user;
+                } catch (error) {
+                    console.log("Error: ", error)
+                }
+
             }
         })
     ],

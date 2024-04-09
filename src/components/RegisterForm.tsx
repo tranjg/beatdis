@@ -14,8 +14,6 @@ export default function RegisterForm() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const user = {artistName, email, password}
-
         if (!artistName || !email || !password) {
             setError("All fields are required.");
             return;
@@ -23,7 +21,18 @@ export default function RegisterForm() {
 
         try {
             
-            const res = await axios.post("/api/register", user);
+            const resUserExists = await axios.post("/api/userExists", {email});
+
+            const { user } = await resUserExists.data
+
+            if (user) {
+                setError("User already exists.");
+                return;
+            }
+
+
+
+            const res = await axios.post("/api/register", {artistName, email, password});
             
             if (res.data) {
                 const form = e.target as HTMLFormElement;

@@ -21,7 +21,7 @@ export default function LoginForm() {
                 email, 
                 password, 
                 redirect: false,
-            })
+            });
 
             if (res.error) {
                 setError("Invalid Credentials");
@@ -30,7 +30,7 @@ export default function LoginForm() {
 
                router.replace("dashboard");
         } catch (error) {
-           console.log(error)
+           console.log(error);
         }
 
     }
