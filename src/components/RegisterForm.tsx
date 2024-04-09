@@ -53,7 +53,7 @@ export default function RegisterForm() {
                 <div className="bg-red-500 rounded-md text-white w-fit text-sm py-1 px-3 mt-2"> {error}</div>
             )}
 
-            <Link className="text-sm mt-3 text-right" href={"/login"}>
+            <Link className="text-sm mt-3 text-right" href={"/"}>
               Already have an account? <span className="underline">Login</span>  
             </Link>
         </form>
