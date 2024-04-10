@@ -20,20 +20,18 @@ export const authOptions: AuthOptions = {
                             email: email
                         }
                     })
-
+                    console.log(user)
                     if (!user) {
                         return null;
                     }
 
                     const passwordsMatch = await bcrypt.compare(password, user.password);
-
-                    console.log("PW Match: ", passwordsMatch )
                     
                     if (!passwordsMatch) {
                         return null
                     }
 
-                    return user;
+                    return {name: user.artistName, email: user.email};
                 } catch (error) {
                     console.log("Error: ", error)
                 }
