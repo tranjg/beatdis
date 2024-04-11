@@ -10,8 +10,8 @@ export default function UserInfo() {
     console.log(session);
     
     return(
-        <div className="grid place-items-center h-screen">
-            <div className="shadow-lg p-8 bg-zinc-300/10 flex flex-col gap-2 my-7"> 
+        <div className="grid place-items-center">
+            <div className="shadow-lg p-2 w-full bg-zinc-300/10 flex flex-col gap-2 my-7"> 
                 <div>
                    Artist Name: <span className="font-bold">{session?.user?.name}</span>
                 </div>
