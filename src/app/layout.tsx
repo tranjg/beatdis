@@ -6,7 +6,7 @@ import { AuthProvider } from "@/components/Providers.tsx";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "BeatDis",
+  title: "Beatdis.",
   description: "Sending beats the easy way.",
 };
 
