@@ -10,6 +10,10 @@ export default async function Dashboard() {
         redirect("/");
     }
     return(
-        <UserInfo />
+        <div className="grid place-items-start h-screen p-5">
+            <div className="shadow-lg p-2 bg-zinc-300/10 rounded-md flex border flex-col"> 
+                Placeholder
+            </div>
+        </div>
     )
 }
