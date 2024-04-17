@@ -1,5 +1,6 @@
 "use client";
 
+import NavAccountDropdown from "@/components/NavAccountDropdown.tsx";
 import Image from "next/image";
 
 export default function Navbar() {
@@ -9,7 +10,7 @@ export default function Navbar() {
         <Image src={"/beatdis.png"} width={300} height={300} alt="beatdis." />
       </div>
       <div className="flex items-center">
-        Avatar | Artist Name / First Letter
+        <NavAccountDropdown />
       </div>
     </div>
   );

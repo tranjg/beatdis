@@ -75,7 +75,6 @@ export default function RegisterForm() {
 
           {error && (
             <div className="bg-red-500 rounded-md text-white w-fit text-sm py-1 px-3 mt-2">
-              {" "}
               {error}
             </div>
           )}
