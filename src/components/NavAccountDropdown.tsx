@@ -32,7 +32,7 @@ import React, { useState } from "react";
 export default function NavAccountDropdown() {
   const [artistName, setArtistName] = useState("");
   const { toast } = useToast();
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,6 +45,7 @@ export default function NavAccountDropdown() {
           title: "Changes have been saved",
           duration: 3000,
         });
+        update({ name: artistName });
       }
     } catch (error) {}
   };
