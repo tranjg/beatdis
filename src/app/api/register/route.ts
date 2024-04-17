@@ -15,7 +15,8 @@ export async function POST(req: Request) {
             data: { 
                 artistName: artistName, 
                 email: email, 
-                password: hashedPassword
+                password: hashedPassword,
+                profilePic: '',
             }
         });
         console.log(newUser)

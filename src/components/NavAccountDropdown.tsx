@@ -8,6 +8,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -22,11 +23,31 @@ import {
 } from "@/components/ui/dropdown-menu.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
+import { useToast } from "@/components/ui/use-toast.ts";
+import axios from "axios";
 import { ChevronDown } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
+import React, { useState } from "react";
 
 export default function NavAccountDropdown() {
+  const [artistName, setArtistName] = useState("");
+  const { toast } = useToast();
   const { data: session } = useSession();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(artistName);
+    try {
+      const res = await axios.put("/api/update", { artistName });
+      if (res.data) {
+        toast({
+          variant: "success",
+          title: "Changes have been saved",
+          duration: 3000,
+        });
+      }
+    } catch (error) {}
+  };
 
   return (
     <Dialog>
@@ -37,7 +58,7 @@ export default function NavAccountDropdown() {
               <AvatarImage src="https://i.pinimg.com/564x/b4/1e/ca/b41eca44d12461cc5e02f2b594c9fdf2.jpg" />
               <AvatarFallback>{session?.user?.name}</AvatarFallback>
             </Avatar>
-            <div>pinot</div>
+            <div>{session?.user?.name}</div>
             <Button variant="ghost">
               <ChevronDown className="h-4 w-4" />
             </Button>
@@ -58,28 +79,27 @@ export default function NavAccountDropdown() {
         <DialogHeader>
           <DialogTitle>Edit your profile</DialogTitle>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input
-              id="name"
-              defaultValue="Pedro Duarte"
-              className="col-span-3"
-            />
+        <form id="accountForm" onSubmit={handleSubmit}>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="artistName" className="text-right">
+                Artist Name
+              </Label>
+              <Input
+                id="artistName"
+                defaultValue={`${session?.user?.name}`}
+                form="accountForm"
+                onChange={(e) => setArtistName(e.target.value)}
+                className="col-span-3"
+              />
+            </div>
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
-            <Input
-              id="username"
-              defaultValue="@peduarte"
-              className="col-span-3"
-            />
-          </div>
-        </div>
+          <DialogFooter>
+            <Button type="submit" form="accountForm">
+              Save changes
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

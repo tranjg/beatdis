@@ -32,7 +32,7 @@ export default function Sidebar() {
           <CommandList>
             <CommandGroup heading="Library">
               {menuItems.map((item, index) => (
-                <CommandItem>
+                <CommandItem key={index}>
                   <div key={index} className="flex place-items-center">
                     {item.icon}
                     <span>{item.title}</span>
