@@ -60,6 +60,7 @@ export const authOptions: AuthOptions = {
 
             if(trigger === "update" ) {
                 token.name = session.name;
+                token.image = session.image;
             }
 
             // pass user id, artist name, and profile pic to token
@@ -78,7 +79,7 @@ export const authOptions: AuthOptions = {
             session.user.id = token.id
             session.user.name = token.name
             session.user.image = token.image
-            
+
             return session;
         }
     },

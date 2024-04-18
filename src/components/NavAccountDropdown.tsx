@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Avatar,
   AvatarFallback,
@@ -30,34 +32,64 @@ import { signOut, useSession } from "next-auth/react";
 import React, { useState } from "react";
 
 export default function NavAccountDropdown() {
-  const [artistName, setArtistName] = useState("");
-  const { toast } = useToast();
   const { data: session, update } = useSession();
+
+  const [artistName, setArtistName] = useState("");
+  const [image, setImage] = useState<File>();
+  const [preview, setPreview] = useState(session?.user.image);
+
+  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!image) return;
     console.log(artistName);
     try {
-      const res = await axios.put("/api/update", { artistName });
+      const data = new FormData();
+      data.append("file", image);
+      data.append("fileName", image.name);
+      data.append("fileType", image.type);
+      data.append("artistName", artistName);
+
+      const res2 = await axios.post("/api/upload/profilepic", data);
+      const res = await axios.put("/api/update", data);
+
+      const formattedFileName = image.name.replace(" ", "+");
+
+      const imageUrl =
+        process.env.NEXT_PUBLIC_AWS_BUCKET_URL! + formattedFileName;
+
+      if (res2.data) {
+        update({ image: imageUrl });
+      }
       if (res.data) {
+        update({ name: artistName });
+      }
+      if (res.data && res2.data) {
         toast({
           variant: "success",
           title: "Changes have been saved",
           duration: 3000,
         });
-        update({ name: artistName });
+        update({ name: artistName, image: imageUrl });
       }
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      console.log(artistName);
+    }
   };
 
   return (
     <Dialog>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <div className="flex items-center gap-2">
-            <Avatar>
-              <AvatarImage src="https://i.pinimg.com/564x/b4/1e/ca/b41eca44d12461cc5e02f2b594c9fdf2.jpg" />
-              <AvatarFallback>{session?.user?.name}</AvatarFallback>
+          <div className="flex items-center cursor-pointer gap-2 p-2 mr-2 rounded">
+            <Avatar className="border">
+              <AvatarImage src={session?.user.image} />
+              <AvatarFallback className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+                {session?.user?.name?.charAt(0)}
+              </AvatarFallback>
             </Avatar>
             <div>{session?.user?.name}</div>
             <Button variant="ghost">
@@ -81,7 +113,35 @@ export default function NavAccountDropdown() {
           <DialogTitle>Edit your profile</DialogTitle>
         </DialogHeader>
         <form id="accountForm" onSubmit={handleSubmit}>
-          <div className="grid gap-4 py-4">
+          <div className="grid gap-9 py-4">
+            <div className="grid grid-row-4 place-items-center">
+              <label
+                className="cursor-pointer hover:contrast-50"
+                htmlFor="avatar"
+              >
+                <img
+                  alt="Avatar"
+                  className="aspect-square object-cover rounded-full border text-center"
+                  height={100}
+                  src={preview}
+                  width={100}
+                />
+              </label>
+              <div className="grid w-full max-w-sm items-center gap-1.5">
+                <Label className="sr-only" htmlFor="avatar">
+                  Avatar
+                </Label>
+                <Input
+                  className="hidden"
+                  id="avatar"
+                  type="file"
+                  onChange={(e) => {
+                    setImage(e.target.files?.[0]);
+                    setPreview(URL.createObjectURL(e.target.files?.[0]));
+                  }}
+                />
+              </div>
+            </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="artistName" className="text-right">
                 Artist Name

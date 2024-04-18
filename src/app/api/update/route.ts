@@ -6,8 +6,10 @@ import { NextResponse } from "next/server";
 export async function PUT(req: Request) {
     const session = await getServerSession()
     try {
-        const {artistName} = await req.json();
-        console.log(session)
+        const data = await req.formData();
+        const artistName: string = data.get("artistName") as unknown as string;
+
+        console.log(artistName)
 
         const updatedUser = await prisma.user.update({
             where: {
