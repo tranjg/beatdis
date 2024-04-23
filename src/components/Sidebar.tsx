@@ -1,5 +1,6 @@
 "use client";
 
+import { SidebarButton } from "@/components/SidebarButton.tsx";
 import UserInfo from "@/components/UserInfo.tsx";
 import {
   Command,
@@ -8,37 +9,43 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command.tsx";
+import { Separator } from "@/components/ui/separator.tsx";
+import { link } from "fs";
+import { Backpack, File, Package2 } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { RxBackpack, RxFile } from "react-icons/rx";
 
 export default function Sidebar() {
   const menuItems = [
     {
       title: "Files",
-      icon: <RxFile className="mr-2 h-5 w-5" />,
+      icon: File,
+      path: "/dashboard/files",
     },
     {
       title: "Packs",
-      icon: <RxBackpack className="mr-2 h-5 w-5" />,
+      icon: Package2,
+      path: "/dashboard/packs",
     },
   ];
 
+  const pathname = usePathname();
   return (
-    <div className="flex flex-col w-[300px] min-w-[300px] border-r min-h-screen p-4">
+    <div className="flex flex-col w-[300px] min-w-[300px] border-r min-h-screen p-4 ">
       <div className="grow">
-        <Command>
-          <CommandList>
-            <CommandGroup heading="Library">
-              {menuItems.map((item, index) => (
-                <CommandItem key={index}>
-                  <div key={index} className="flex place-items-center">
-                    {item.icon}
-                    <span>{item.title}</span>
-                  </div>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
+        <div className="text-sm my-2 px-4 text-slate-400">Library</div>
+        {menuItems.map((item, index) => (
+          <Link key={index} href={`${item.path}`}>
+            <SidebarButton
+              variant={pathname === item.path ? "default" : "ghost"}
+              icon={item.icon}
+              className="w-full"
+            >
+              {item.title}
+            </SidebarButton>
+          </Link>
+        ))}
       </div>
     </div>
   );

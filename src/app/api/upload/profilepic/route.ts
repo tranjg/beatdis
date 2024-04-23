@@ -39,7 +39,7 @@ export async function POST(req: Request) {
         
         const imgUrl = `${bucketUrl}${formattedFileName}`
 
-        const updatedUser = await prisma.user.update({
+        const updateUserProfilePic = await prisma.user.update({
             where: {
                 email: session!.user!.email!
             },
