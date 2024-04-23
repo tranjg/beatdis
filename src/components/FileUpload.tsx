@@ -20,7 +20,7 @@ export default function FileUpload() {
       data.append("fileName", file.name);
       data.append("fileType", file.type);
 
-      const res = await axios.postForm("/api/upload/profilepic", data);
+      const res = await axios.postForm("/api/upload/music", data);
 
       if (res.data) {
         const form = e.target as HTMLFormElement;

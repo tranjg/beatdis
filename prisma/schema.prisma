@@ -15,25 +15,25 @@ model User {
   password   String
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @default(now()) @updatedAt @map("updated_at")
-  // songs     Song[]
+  songs      Song[]
   // packs     Pack[]
 }
 
-// model Song {
-//   id            String   @id @map("_id")
-//   name          String
-//   filePath      String
-//   imagePath     String
-//   artist        User?    @relation(fields: [artistId], references: [id])
-//   artistId      String?  @db.ObjectId
-//   collaborators String[] @default([])
-//   attachments   String[] @default([])
-//   tags          String[] @default([])
-//   createdAt     DateTime @default(now())
-//   updatedAt     DateTime @updatedAt
-//   pack          Pack?    @relation(fields: [packId], references: [id])
-//   packId        String?
-// }
+model Song {
+  id            String   @id @map("_id")
+  name          String
+  filePath      String
+  imagePath     String
+  artist        User?    @relation(fields: [artistId], references: [id])
+  artistId      String?  @db.ObjectId
+  collaborators String[] @default([])
+  attachments   String[] @default([])
+  tags          String[] @default([])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  // pack          Pack?    @relation(fields: [packId], references: [id])
+  // packId        String?
+}
 
 // model Pack {
 //   id     String  @id @map("_id")

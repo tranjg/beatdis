@@ -7,7 +7,13 @@ export default function Navbar() {
   return (
     <div className="flex flex-row justify-between h-[100px] border-b min-w-screen">
       <div className="flex items-center">
-        <Image src={"/beatdis.png"} width={300} height={300} alt="beatdis." />
+        <Image
+          priority={true}
+          src={"/beatdis.png"}
+          width={300}
+          height={300}
+          alt="beatdis."
+        />
       </div>
       <div className="flex items-center">
         <NavAccountDropdown />

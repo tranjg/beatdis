@@ -27,7 +27,7 @@ export async function POST(req: Request) {
         const fileBuffer = Buffer.from(binaryFile)
         console.log(fileName)
         const params = {
-            Bucket: process.env.AWS_PROFILE_PIC_BUCKET,
+            Bucket: process.env.AWS_MUSIC_FILES_BUCKET,
             Key: `${fileName}`,
             Body: fileBuffer,
             ContentType: `${fileType}`,
