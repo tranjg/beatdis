@@ -53,7 +53,7 @@ export default function NavAccountDropdown() {
       data.append("artistName", artistName);
 
       const res2 = await axios.post("/api/upload/profilepic", data);
-      const res = await axios.put("/api/update", data);
+      const res = await axios.put("/api/update/user/artistName", data);
 
       const formattedFileName = image.name.replace(" ", "+");
 
