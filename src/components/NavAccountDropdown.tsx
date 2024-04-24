@@ -34,49 +34,81 @@ import React, { useState } from "react";
 export default function NavAccountDropdown() {
   const { data: session, update } = useSession();
 
-  const [artistName, setArtistName] = useState("");
+  const [artistName, setArtistName] = useState(`${session?.user.name}`);
   const [image, setImage] = useState<File>();
-  const [preview, setPreview] = useState(session?.user.image);
+  const [preview, setPreview] = useState(`${session?.user.image}`);
+  const [error, setError] = useState("");
 
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!image) return;
-    console.log(artistName);
+    if (artistName === "") {
+      setError("Artist name cannot be blank");
+      return;
+    } else {
+      setError("");
+    }
+
+    const data = new FormData();
+
     try {
-      const data = new FormData();
-      data.append("file", image);
-      data.append("fileName", image.name);
-      data.append("fileType", image.type);
-      data.append("artistName", artistName);
-
-      const res2 = await axios.post("/api/upload/profilepic", data);
-      const res = await axios.put("/api/update/user/artistName", data);
-
-      const formattedFileName = image.name.replace(" ", "+");
-
-      const imageUrl =
-        process.env.NEXT_PUBLIC_AWS_BUCKET_URL! + formattedFileName;
-
-      if (res2.data) {
-        update({ image: imageUrl });
-      }
-      if (res.data) {
-        update({ name: artistName });
-      }
-      if (res.data && res2.data) {
+      if (image === undefined) {
+        data.append("artistName", artistName);
+        const res = await axios.put("/api/update/user/artistName", data);
+        update({ name: artistName, image: session.user.image });
         toast({
           variant: "success",
           title: "Changes have been saved",
           duration: 3000,
         });
+      } else if (artistName === undefined || artistName === "") {
+        data.append("file", image);
+        data.append("fileName", image.name);
+        data.append("fileType", image.type);
+        const res = await axios.post("/api/upload/profilepic", data);
+
+        const formattedFileName = image.name.replace(" ", "+");
+
+        const imageUrl =
+          process.env.NEXT_PUBLIC_AWS_BUCKET_URL! + formattedFileName;
+        update({ name: session?.user.name, image: imageUrl });
+        toast({
+          variant: "success",
+          title: "Changes have been saved",
+          duration: 3000,
+        });
+      } else if (image !== undefined && artistName !== undefined) {
+        data.append("file", image);
+        data.append("fileName", image.name);
+        data.append("fileType", image.type);
+        data.append("artistName", artistName);
+
+        const formattedFileName = image.name.replace(" ", "+");
+
+        const imageUrl =
+          process.env.NEXT_PUBLIC_AWS_BUCKET_URL! + formattedFileName;
+        const res = await axios.put("/api/update/user/artistName", data);
+        const res2 = await axios.post("/api/upload/profilepic", data);
+
+        setPreview(imageUrl);
+
         update({ name: artistName, image: imageUrl });
+        toast({
+          variant: "success",
+          title: "Changes have been saved",
+          duration: 3000,
+        });
+      } else {
+        return;
       }
     } catch (error) {
-    } finally {
-      console.log(artistName);
+      toast({
+        variant: "destructive",
+        title: "Error with saving",
+        duration: 3000,
+      });
     }
   };
 
@@ -91,7 +123,7 @@ export default function NavAccountDropdown() {
                 {session?.user?.name?.charAt(0)}
               </AvatarFallback>
             </Avatar>
-            <div>{session?.user?.name}</div>
+            <div>{session?.user.name}</div>
             <Button variant="ghost">
               <ChevronDown className="h-4 w-4" />
             </Button>
@@ -120,10 +152,10 @@ export default function NavAccountDropdown() {
                 htmlFor="avatar"
               >
                 <img
-                  alt="Avatar"
                   className="aspect-square object-cover rounded-full border text-center"
                   height={100}
                   src={preview}
+                  alt={session?.user?.name?.charAt(0)}
                   width={100}
                 />
               </label>
@@ -135,9 +167,14 @@ export default function NavAccountDropdown() {
                   className="hidden"
                   id="avatar"
                   type="file"
+                  accept="image/*"
                   onChange={(e) => {
-                    setImage(e.target.files?.[0]);
-                    setPreview(URL.createObjectURL(e.target.files?.[0]));
+                    if (e.target?.files?.[0].type.includes("image/")) {
+                      setImage(e.target.files?.[0]);
+                      setPreview(URL.createObjectURL(e.target.files?.[0]));
+                    } else {
+                      return;
+                    }
                   }}
                 />
               </div>
@@ -150,15 +187,26 @@ export default function NavAccountDropdown() {
                 id="artistName"
                 defaultValue={`${session?.user?.name}`}
                 form="accountForm"
+                size={5242880}
                 onChange={(e) => setArtistName(e.target.value)}
                 className="col-span-3"
               />
             </div>
           </div>
+          {error && (
+            <div className="bg-red-500 rounded-md text-white w-fit text-sm py-1 px-3 mt-2">
+              {error}
+            </div>
+          )}
           <DialogFooter>
-            <Button type="submit" form="accountForm">
-              Save changes
-            </Button>
+            {artistName === session?.user.name &&
+            preview === session.user.image ? (
+              <></>
+            ) : (
+              <Button type="submit" form="accountForm">
+                Save changes
+              </Button>
+            )}
           </DialogFooter>
         </form>
       </DialogContent>
