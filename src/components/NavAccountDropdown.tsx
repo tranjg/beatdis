@@ -29,7 +29,7 @@ import { useToast } from "@/components/ui/use-toast.ts";
 import axios from "axios";
 import { ChevronDown } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function NavAccountDropdown() {
   const { data: session, update } = useSession();
@@ -133,7 +133,14 @@ export default function NavAccountDropdown() {
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DialogTrigger asChild>
-            <DropdownMenuItem>Account Settings</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                setPreview(session!.user.image);
+                setArtistName(session!.user.name);
+              }}
+            >
+              Account Settings
+            </DropdownMenuItem>
           </DialogTrigger>
           <DropdownMenuItem onClick={() => signOut()} className="text-red-500">
             Log Out
@@ -185,7 +192,7 @@ export default function NavAccountDropdown() {
               </Label>
               <Input
                 id="artistName"
-                defaultValue={`${session?.user?.name}`}
+                defaultValue={`${artistName}`}
                 form="accountForm"
                 size={5242880}
                 onChange={(e) => setArtistName(e.target.value)}

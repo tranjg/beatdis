@@ -1,10 +1,16 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton.tsx";
+import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default async function Dashboard() {
+  const session = useSession();
+
+  if (!session) {
+    redirect("/");
+  }
   useEffect(() => {
     redirect("/dashboard/files");
   });
