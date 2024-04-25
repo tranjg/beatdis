@@ -20,17 +20,17 @@ model User {
 }
 
 model Song {
-  id            String   @id @map("_id")
-  name          String
-  filePath      String
-  imagePath     String
-  artist        User?    @relation(fields: [artistId], references: [id])
-  artistId      String?  @db.ObjectId
-  collaborators String[] @default([])
-  attachments   String[] @default([])
-  tags          String[] @default([])
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  // name          String
+  filePath String
+  // imagePath     String
+  artist   User?   @relation(fields: [artistId], references: [id])
+  artistId String? @db.ObjectId
+  // collaborators String[] @default([])
+  // attachments   String[] @default([])
+  // tags          String[] @default([])
+  // createdAt     DateTime @default(now())
+  // updatedAt     DateTime @updatedAt
   // pack          Pack?    @relation(fields: [packId], references: [id])
   // packId        String?
 }

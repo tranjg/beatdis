@@ -17,6 +17,7 @@ export async function POST(req: Request) {
                 email: email, 
                 password: hashedPassword,
                 profilePic: '',
+                songs: {},
             }
         });
         console.log(newUser)

@@ -4,11 +4,14 @@ import { Input } from "@/components/ui/input.tsx";
 import { useState } from "react";
 import Image from "next/image";
 import axios from "axios";
+import { useToast } from "@/components/ui/use-toast.ts";
 
 export default function FileUpload() {
   const [file, setFile] = useState<File>();
   const [error, setError] = useState("");
-  const [imageSrc, setImageSrc] = useState("");
+  const [musicSrc, setMusicSrc] = useState("");
+
+  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,19 +23,24 @@ export default function FileUpload() {
       data.append("fileName", file.name);
       data.append("fileType", file.type);
 
-      const res = await axios.postForm("/api/upload/music", data);
+      const res = await axios.postForm("/api/upload/song", data);
 
       if (res.data) {
         const form = e.target as HTMLFormElement;
         form.reset();
+        toast({
+          variant: "success",
+          title: "File has been uploaded",
+          duration: 3000,
+        });
       } else {
         setError("File upload failed.");
       }
     } catch (error) {
       console.log(error);
     }
-    const s3FileUrl = `https://profile-pic-beatdis.s3.us-east-2.amazonaws.com/${file.name}`;
-    setImageSrc(s3FileUrl);
+    const s3FileUrl = `https://music-files-beatdis.s3.us-east-2.amazonaws.com/${file.name}`;
+    setMusicSrc(s3FileUrl);
   };
 
   return (
@@ -56,14 +64,14 @@ export default function FileUpload() {
           </div>
         )}
       </form>
-      {imageSrc.length > 0 && (
+      {/* {imageSrc.length > 0 && (
         <Image
           src={imageSrc}
           width={350}
           height={350}
           alt={"profile picture"}
         />
-      )}
+      )} */}
     </div>
   );
 }
