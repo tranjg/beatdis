@@ -18,7 +18,7 @@ export async function POST(req: Request) {
             }
         })
 
-        const bucketUrl = process.env.NEXT_PUBLIC_AWS_BUCKET_URL
+        const bucketUrl = process.env.AWS_MUSIC_FILES_BUCKET_URL
         
         const data = await req.formData()
         const file: File | null = data.get('file') as unknown as File

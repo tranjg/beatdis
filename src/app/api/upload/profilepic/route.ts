@@ -1,10 +1,11 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/route.ts";
 import prisma from "@/utils/connect.ts";
 import { PutObjectCommand, S3, S3Client } from "@aws-sdk/client-s3";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-    const session = await getServerSession();
+    const session = await getServerSession(authOptions);
 
      try {
         const s3 = new S3Client({

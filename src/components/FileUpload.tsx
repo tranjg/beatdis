@@ -5,6 +5,8 @@ import { useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 import { useToast } from "@/components/ui/use-toast.ts";
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
 
 export default function FileUpload() {
   const [file, setFile] = useState<File>();
@@ -39,8 +41,6 @@ export default function FileUpload() {
     } catch (error) {
       console.log(error);
     }
-    const s3FileUrl = `https://music-files-beatdis.s3.us-east-2.amazonaws.com/${file.name}`;
-    setMusicSrc(s3FileUrl);
   };
 
   return (
@@ -64,14 +64,22 @@ export default function FileUpload() {
           </div>
         )}
       </form>
-      {/* {imageSrc.length > 0 && (
-        <Image
-          src={imageSrc}
-          width={350}
-          height={350}
-          alt={"profile picture"}
-        />
-      )} */}
+      <button
+        type="button"
+        onClick={async () => {
+          const songs = await axios.get("/api/get/songs");
+
+          setMusicSrc(songs.data.filePath);
+
+          console.log(musicSrc);
+        }}
+        className="bg-purple-600 border overflow-hidden rounded-md text-white font-bold cursor-pointer px-6 py-2 transition-all duration-200 ease-out hover:border-1 hover:border-purple-600  hover:bg-white hover:text-purple-600"
+      >
+        Get Song
+      </button>
+      {musicSrc && (
+        <AudioPlayer src={musicSrc} onPlay={(e) => console.log(musicSrc)} />
+      )}
     </div>
   );
 }
