@@ -21,7 +21,6 @@ export async function POST(req: Request) {
         const bucketUrl = process.env.NEXT_PUBLIC_AWS_BUCKET_URL
         
         const data = await req.formData()
-        console.log(data)
         const file: File | null = data.get('file') as unknown as File
         const fileName: String | null = data.get("fileName") as unknown as String;
         const fileType: String | null = data.get("fileType") as unknown as String;
@@ -29,7 +28,6 @@ export async function POST(req: Request) {
         const binaryFile = await file.arrayBuffer()
     
         const fileBuffer = Buffer.from(binaryFile)
-        console.log(fileName)
         const params = {
             Bucket: process.env.AWS_MUSIC_FILES_BUCKET,
             Key: `${fileName}`,
@@ -43,9 +41,6 @@ export async function POST(req: Request) {
         
         const songUrl = `${bucketUrl}${formattedFileName}`
 
-        console.log(songUrl)
-        console.log(session!.user)
-
         songData.append('filePath', songUrl);
 
 
@@ -56,7 +51,6 @@ export async function POST(req: Request) {
                     connect: {id: `${session?.user.id}`},
                  },
         }});
-        console.log(newSong)
         return NextResponse.json({message: "File uploaded."}, {status: 201});
      } catch (error) {
         return NextResponse.json({message: "An error occurred while uploading"}, {status: 500})

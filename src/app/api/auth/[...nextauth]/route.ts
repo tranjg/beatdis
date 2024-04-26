@@ -9,7 +9,6 @@ declare module "next-auth" {
             id: string,
             name: string,
             image: string,
-            songs: [],
 
         } & DefaultSession["user"]
     }
@@ -47,7 +46,7 @@ export const authOptions: AuthOptions = {
 
                     return user;
                 } catch (error) {
-                    console.log("Error: ", error)
+                    return ("Error: " + error)
                 }
 
             }
@@ -62,7 +61,6 @@ export const authOptions: AuthOptions = {
             if(trigger === "update" ) {
                 token.name = session.name;
                 token.image = session.image;
-                token.songs = session.songs;
             }
 
             // pass user id, artist name, and profile pic to token
@@ -72,7 +70,6 @@ export const authOptions: AuthOptions = {
                     id: user.id,
                     name: user.artistName,
                     image: user.profilePic,
-                    songs: user.songs,
                 }
             }
             return token;
@@ -82,7 +79,6 @@ export const authOptions: AuthOptions = {
             session.user.id = token.id
             session.user.name = token.name
             session.user.image = token.image
-            session.user.songs = token.songs
 
             return session;
         }

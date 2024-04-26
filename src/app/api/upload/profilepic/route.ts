@@ -25,7 +25,6 @@ export async function POST(req: Request) {
         const binaryFile = await file.arrayBuffer()
     
         const fileBuffer = Buffer.from(binaryFile)
-        console.log(fileName)
         const params = {
             Bucket: process.env.AWS_PROFILE_PIC_BUCKET,
             Key: `${fileName}`,

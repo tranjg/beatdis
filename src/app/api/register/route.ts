@@ -17,10 +17,8 @@ export async function POST(req: Request) {
                 email: email, 
                 password: hashedPassword,
                 profilePic: '',
-                songs: {},
             }
         });
-        console.log(newUser)
         return NextResponse.json({message: "User registered."}, {status: 201});
     } catch (error) {
         return NextResponse.json({message: "An error occurred while registering the user"}, {status: 500})
