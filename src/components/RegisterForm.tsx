@@ -1,7 +1,9 @@
 "use client";
 
+import { toast, useToast } from "@/components/ui/use-toast.ts";
 import axios from "axios";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import React, { useState } from "react";
 
 export default function RegisterForm() {
@@ -9,6 +11,8 @@ export default function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,7 +40,12 @@ export default function RegisterForm() {
 
       if (res.data) {
         const form = e.target as HTMLFormElement;
-        form.reset();
+        toast({
+          variant: "success",
+          title: "Registration successful",
+          duration: 3000,
+        });
+        redirect("/");
       } else {
         console.log("User registration failed.");
       }
