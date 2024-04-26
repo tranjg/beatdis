@@ -9,8 +9,6 @@ export async function PUT(req: Request) {
         const data = await req.formData();
         const artistName: string = data.get("artistName") as unknown as string;
 
-        console.log(artistName)
-
         const updatedUser = await prisma.user.update({
             where: {
                 email: session!.user!.email!
@@ -19,9 +17,8 @@ export async function PUT(req: Request) {
                 artistName: artistName
             }
         })
-        console.log(updatedUser)
         return NextResponse.json({message: "User updated."}, {status: 201})
     } catch (error) {
-        
+        return NextResponse.json({message: "An error occurred while updating."}, {status: 500})
     }
 }
