@@ -1,4 +1,4 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route.ts";
+import { authOptions } from "@/lib/authOptions.ts";
 import prisma from "@/utils/connect.ts";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
