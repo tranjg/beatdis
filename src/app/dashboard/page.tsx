@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default async function Dashboard() {
+export default function Dashboard() {
   const session = useSession();
 
   if (!session) {
