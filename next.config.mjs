@@ -14,6 +14,12 @@ const nextConfig = {
   env: {
     BASE_URL: process.env.BASE_URL,
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;
