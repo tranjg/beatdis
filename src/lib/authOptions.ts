@@ -1,6 +1,7 @@
 import prisma from "@/utils/connect.ts";
 import { DefaultSession, AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { PrismaAdapter } from "@next-auth/prisma-adapter"
 
 declare module "next-auth" {
     interface Session {
@@ -16,6 +17,7 @@ declare module "next-auth" {
 const bcrypt = require('bcryptjs');
 
 export const authOptions: AuthOptions = {
+    adapter: PrismaAdapter(prisma),
     providers: [
         CredentialsProvider({
             name: "credentials",
@@ -84,6 +86,6 @@ export const authOptions: AuthOptions = {
     },
     secret: process.env.NEXTAUTH_SECRET,
     pages: {
-        signIn: "/"
+        signIn: "/login"
     },
 };
