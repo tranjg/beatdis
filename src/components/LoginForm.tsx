@@ -21,7 +21,6 @@ export default function LoginForm() {
         password,
         redirect: false,
       });
-      console.log(res);
       if (res.error) {
         setError("Invalid email or password");
         return;
@@ -29,7 +28,7 @@ export default function LoginForm() {
 
       router.replace("dashboard");
     } catch (error) {
-      console.log(error);
+      return error;
     }
   };
 
