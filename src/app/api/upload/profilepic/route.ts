@@ -1,4 +1,4 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route.ts";
+import { authOptions } from "@/lib/authOptions.ts";
 import prisma from "@/utils/connect.ts";
 import { PutObjectCommand, S3, S3Client } from "@aws-sdk/client-s3";
 import { getServerSession } from "next-auth";
@@ -16,7 +16,7 @@ export async function POST(req: Request) {
             }
         })
 
-        const bucketUrl = process.env.AWS_PROFILE_PIC_BUCKET_URL
+        const bucketUrl = process.env.NEXT_PUBLIC_AWS_PROFILE_PIC_BUCKET_URL
         
         const data = await req.formData()
         const file: File | null = data.get('file') as unknown as File

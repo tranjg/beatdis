@@ -1,4 +1,4 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route.ts";
+import { authOptions } from "@/lib/authOptions.ts";
 import prisma from "@/utils/connect.ts";
 import { PutObjectCommand, S3, S3Client } from "@aws-sdk/client-s3";
 import { getServerSession } from "next-auth";
