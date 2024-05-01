@@ -45,12 +45,12 @@ export default function RegisterForm() {
           title: "Registration successful",
           duration: 3000,
         });
-        redirect("/");
+        redirect("/login");
       } else {
-        console.log("User registration failed.");
+        setError("User registration failed.");
       }
     } catch (error) {
-      console.log("Error during registration: ", error);
+      return "Error during registration: " + error;
     }
   };
 

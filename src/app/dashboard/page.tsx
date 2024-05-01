@@ -9,7 +9,7 @@ export default function Dashboard() {
   const session = useSession();
 
   if (!session) {
-    redirect("/");
+    redirect("/login");
   }
   useEffect(() => {
     redirect("/dashboard/files");

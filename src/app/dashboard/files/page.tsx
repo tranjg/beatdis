@@ -10,7 +10,7 @@ export default async function Files() {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    redirect("/");
+    redirect("/login");
   }
   return (
     <div className="grid place-items-start h-screen p-5">
