@@ -1,4 +1,4 @@
-import { authOptions } from "@/lib/authOptions.ts";
+import { authOptions } from "@/utils/authOptions";
 import prisma from "@/utils/connect.ts";
 import { PutObjectCommand, S3, S3Client } from "@aws-sdk/client-s3";
 import { getServerSession } from "next-auth";
@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
 
     const songData = new FormData();
-
+    if (session) {
      try {
         const s3 = new S3Client({
             region: process.env.AWS_REGION,
@@ -55,4 +55,7 @@ export async function POST(req: Request) {
      } catch (error) {
         return NextResponse.json({message: "An error occurred while uploading"}, {status: 500})
     }
+} else {
+    return NextResponse.json({message: "Unauthorized"}, {status: 401})
+}
 }

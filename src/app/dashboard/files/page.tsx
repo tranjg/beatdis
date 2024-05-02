@@ -1,7 +1,7 @@
 import FileUpload from "@/components/FileUpload.tsx";
 import UserInfo from "@/components/UserInfo.tsx";
 import { Input } from "@/components/ui/input.tsx";
-import { authOptions } from "@/lib/authOptions.ts";
+import { authOptions } from "@/utils/authOptions";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { useState } from "react";

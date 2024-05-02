@@ -1,4 +1,4 @@
-import { authOptions } from "@/lib/authOptions.ts";
+import { authOptions } from "@/utils/authOptions";
 import NextAuth from "next-auth";
 
 
