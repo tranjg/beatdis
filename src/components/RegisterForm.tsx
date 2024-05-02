@@ -10,6 +10,7 @@ export default function RegisterForm() {
   const [artistName, setArtistName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [retypePassword, setRetypePassword] = useState("");
   const [error, setError] = useState("");
 
   const { toast } = useToast();
@@ -19,6 +20,11 @@ export default function RegisterForm() {
 
     if (!artistName || !email || !password) {
       setError("All fields are required.");
+      return;
+    }
+
+    if (password !== retypePassword) {
+      setError("Passwords must match.");
       return;
     }
 
@@ -78,6 +84,12 @@ export default function RegisterForm() {
             placeholder="Password"
             className="w-[400px] border rounded-md border-gray-300 py-2 px-6 bg-zinc-200/20 focus:outline-none focus:ring-primary focus:ring-1"
           />
+          <input
+            onChange={(e) => setRetypePassword(e.target.value)}
+            type="password"
+            placeholder="Re-type password"
+            className="w-[400px] border rounded-md border-gray-300 py-2 px-6 bg-zinc-200/20 focus:outline-none focus:ring-primary focus:ring-1"
+          />
           <button className="bg-primary border overflow-hidden rounded-md text-white font-bold cursor-pointer px-6 py-2 transition-all duration-200 ease-out hover:border-1 hover:border-primary  hover:bg-white hover:text-primary">
             Register
           </button>
@@ -88,7 +100,7 @@ export default function RegisterForm() {
             </div>
           )}
 
-          <Link className="text-sm mt-3 text-right" href={"/"}>
+          <Link className="text-sm mt-3 text-right" href={"/login"}>
             Already have an account? <span className="underline">Login</span>
           </Link>
         </form>
