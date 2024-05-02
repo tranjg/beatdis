@@ -26,6 +26,7 @@ import {
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import { useToast } from "@/components/ui/use-toast.ts";
+import { acceptedImageTypes } from "@/utils/types.ts";
 import axios from "axios";
 import { ChevronDown } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
@@ -52,27 +53,29 @@ export default function NavAccountDropdown() {
     }
 
     const data = new FormData();
+    data.append("artistName", artistName);
+
+    data.append("file", image!);
+    data.append("fileName", image!.name);
+    data.append("fileType", image!.type);
 
     try {
       if (image === undefined) {
-        data.append("artistName", artistName);
         const res = await axios.put("/api/update/user/artistName", data);
-        update({ name: artistName, image: session.user.image });
+        update({ name: artistName, image: session!.user.image });
         toast({
           variant: "success",
           title: "Changes have been saved",
           duration: 3000,
         });
       } else if (artistName === undefined || artistName === "") {
-        data.append("file", image);
-        data.append("fileName", image.name);
-        data.append("fileType", image.type);
         const res = await axios.post("/api/upload/profilepic", data);
 
         const formattedFileName = image.name.replace(" ", "+");
 
         const imageUrl =
-          process.env.NEXT_PUBLIC_AWS_BUCKET_URL! + formattedFileName;
+          process.env.NEXT_PUBLIC_AWS_PROFILE_PIC_BUCKET_URL! +
+          formattedFileName;
         update({ name: session?.user.name, image: imageUrl });
         toast({
           variant: "success",
@@ -80,15 +83,12 @@ export default function NavAccountDropdown() {
           duration: 3000,
         });
       } else if (image !== undefined && artistName !== undefined) {
-        data.append("file", image);
-        data.append("fileName", image.name);
-        data.append("fileType", image.type);
-        data.append("artistName", artistName);
-
         const formattedFileName = image.name.replace(" ", "+");
 
         const imageUrl =
-          process.env.NEXT_PUBLIC_AWS_BUCKET_URL! + formattedFileName;
+          process.env.NEXT_PUBLIC_AWS_PROFILE_PIC_BUCKET_URL! +
+          formattedFileName;
+
         const res = await axios.put("/api/update/user/artistName", data);
         const res2 = await axios.post("/api/upload/profilepic", data);
 
@@ -158,13 +158,12 @@ export default function NavAccountDropdown() {
                 className="cursor-pointer hover:contrast-50"
                 htmlFor="avatar"
               >
-                <img
-                  className="aspect-square object-cover rounded-full border text-center"
-                  height={100}
-                  src={preview}
-                  alt={session?.user?.name?.charAt(0)}
-                  width={100}
-                />
+                <Avatar className="border h-[65px] w-[65px]">
+                  <AvatarImage src={preview} />
+                  <AvatarFallback className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+                    {session?.user?.name?.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
               </label>
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label className="sr-only" htmlFor="avatar">
@@ -176,9 +175,15 @@ export default function NavAccountDropdown() {
                   type="file"
                   accept="image/*"
                   onChange={(e) => {
-                    if (e.target?.files?.[0].type.includes("image/")) {
+                    if (
+                      acceptedImageTypes.includes(
+                        e.target.files?.[0].type as string
+                      )
+                    ) {
                       setImage(e.target.files?.[0]);
-                      setPreview(URL.createObjectURL(e.target.files?.[0]));
+                      setPreview(
+                        URL.createObjectURL(e.target.files?.[0] as File)
+                      );
                     } else {
                       return;
                     }
