@@ -12,7 +12,14 @@ export default function DragDropZone(props: Props) {
     props.setFiles(acceptedFiles as File);
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      "audio/mpeg": [],
+      "audio/wav": [],
+      "audio/aiff": [],
+    },
+  });
 
   return (
     <div
