@@ -54,10 +54,11 @@ export default function NavAccountDropdown() {
 
     const data = new FormData();
     data.append("artistName", artistName);
-
-    data.append("file", image!);
-    data.append("fileName", image!.name);
-    data.append("fileType", image!.type);
+    if (image) {
+      data.append("file", image);
+      data.append("fileName", image.name);
+      data.append("fileType", image.type);
+    }
 
     try {
       if (image === undefined) {
@@ -123,7 +124,7 @@ export default function NavAccountDropdown() {
                 {session?.user?.name?.charAt(0)}
               </AvatarFallback>
             </Avatar>
-            <div>{session?.user.name}</div>
+            <div>{session?.user?.name}</div>
             <Button variant="ghost">
               <ChevronDown className="h-4 w-4" />
             </Button>
@@ -216,7 +217,7 @@ export default function NavAccountDropdown() {
               <></>
             ) : (
               <Button type="submit" form="accountForm">
-                Save changes
+                Save Changes
               </Button>
             )}
           </DialogFooter>
