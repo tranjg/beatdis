@@ -35,7 +35,9 @@ export async function POST(req: Request) {
             data: { 
                 filePath: songUrl,
                 name: `${fileName}`,
-                artist:{
+                tags: [],
+                artist: "",
+                user:{
                     connect: {id: `${session?.user.id}`},
                  },
         }});

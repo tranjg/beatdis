@@ -5,11 +5,12 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
     const session = await getServerSession(authOptions)
+
     if (session) {
     try{
-        const songs = await prisma.song.findFirst({
+        const songs = await prisma.song.findMany({
             where: {
-                artistId: session!.user.id 
+                userId: session!.user.id 
             }
         })
         console.log(songs)
