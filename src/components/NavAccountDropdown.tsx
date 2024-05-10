@@ -147,7 +147,7 @@ export default function NavAccountDropdown() {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <DialogContent>
+      <DialogContent className="w-[40vh]">
         <DialogHeader>
           <DialogTitle>Edit your profile</DialogTitle>
         </DialogHeader>
