@@ -20,7 +20,9 @@ export async function POST(req: Request) {
             const file: File | null = data.get('file') as unknown as File
             const fileName: String | null = data.get("fileName") as unknown as String;
             const fileType: String | null = data.get("fileType") as unknown as String
-        
+            const fileArtist: String | null = data.get("fileArtist") as unknown as String
+
+            
             const binaryFile = await file.arrayBuffer()
             const fileBuffer = Buffer.from(binaryFile)
             const signedUrl = await getSignedURL(fileName, bucket, fileType)
@@ -36,7 +38,7 @@ export async function POST(req: Request) {
                 filePath: songUrl,
                 name: `${fileName}`,
                 tags: [],
-                artist: "",
+                artist: `${fileArtist}`,
                 user:{
                     connect: {id: `${session?.user.id}`},
                  },
