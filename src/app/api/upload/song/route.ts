@@ -19,6 +19,9 @@ export async function POST(req: Request) {
         const data = await req.formData()
             const file: File | null = data.get('file') as unknown as File
             const fileName: String | null = data.get("fileName") as unknown as String;
+
+            const formattedName = fileName.split(".")[0]; // formatted name to remove file extensions 
+
             const fileType: String | null = data.get("fileType") as unknown as String
             const fileArtist: String | null = data.get("fileArtist") as unknown as String
 
@@ -28,7 +31,7 @@ export async function POST(req: Request) {
             const signedUrl = await getSignedURL(fileName, bucket, fileType)
             const upload = await axios.put(signedUrl.data!.url, fileBuffer)
             
-            const formattedFileName = fileName.replaceAll(" ", "+")
+            const formattedFileName = fileName.replaceAll(" ", "+") // formatted name that satisifes S3 url conditions
             const songUrl = `${bucketUrl}${formattedFileName}`
 
         // songData.append('filePath', songUrl);
@@ -36,7 +39,7 @@ export async function POST(req: Request) {
         const newSong = await prisma.song.create({
             data: { 
                 filePath: songUrl,
-                name: `${fileName}`,
+                name: `${formattedName}`,
                 tags: [],
                 artist: `${fileArtist}`,
                 user:{
