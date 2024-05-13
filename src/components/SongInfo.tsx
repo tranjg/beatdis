@@ -1,7 +1,22 @@
+"use client";
+
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
+import formattedFilename from "@/utils/formattedFilename.ts";
+import axios from "axios";
+import { use, useEffect, useState } from "react";
 
-export default function SongInfo() {
+export default function SongInfo(props: { data: FormData }) {
+  const [song, setSong] = useState();
+
+  const getSong = async () => {
+    const songData = await axios.postForm("/api/get/song", props.data);
+    setSong(songData.data);
+  };
+
+  useEffect(() => {
+    getSong();
+  }, []);
   return (
     <div className="flex flex-col gap-6 my-6 p-4 border rounded-md">
       <div className="flex place-items-center">
@@ -24,11 +39,12 @@ export default function SongInfo() {
         <div className="flex flex-col items-center">
           <Input
             id="songName"
-            defaultValue={"Song Name"}
+            defaultValue={song ? `${song.name}` : ""}
             type="text"
             className="border-0 focus-visible:ring-0 outline-none"
             onChange={(e) => {
-              console.log(e);
+              console.log(song.name);
+              // console.log(e);
             }}
           />
           <Input
