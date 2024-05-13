@@ -59,9 +59,9 @@
 }
 
 input {
-  @apply w-[400px] border rounded-md border-gray-300 py-2 px-6 bg-zinc-200/20 focus:outline-none focus:border-purple-600;
+  @apply border rounded-md border-gray-300 py-2 px-6 bg-zinc-200/20 focus:outline-none focus:border-primary;
 }
 
 button {
-  @apply focus:outline-none focus:border-purple-600 focus:ring-purple-600 focus:ring-1;
+  @apply focus:outline-none focus:border-primary focus:ring-primary focus:ring-1;
 }
