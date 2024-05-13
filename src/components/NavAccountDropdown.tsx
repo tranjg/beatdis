@@ -148,7 +148,10 @@ export default function NavAccountDropdown() {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <DialogContent className="w-[40vh]">
+      <DialogContent
+        onOpenAutoFocus={(e) => e.preventDefault()}
+        className="w-[40vh]"
+      >
         <DialogHeader>
           <DialogTitle>Edit your profile</DialogTitle>
         </DialogHeader>
@@ -193,16 +196,15 @@ export default function NavAccountDropdown() {
               </div>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="artistName" className="text-right">
+              <Label htmlFor="artistName" className="text-right text-base">
                 Artist Name
               </Label>
               <Input
                 id="artistName"
                 defaultValue={`${artistName}`}
                 form="accountForm"
-                size={5242880}
                 onChange={(e) => setArtistName(e.target.value)}
-                className="col-span-3"
+                className="col-span-3 text-base"
               />
             </div>
           </div>
@@ -216,9 +218,13 @@ export default function NavAccountDropdown() {
             preview === session.user.image ? (
               <></>
             ) : (
-              <Button type="submit" form="accountForm">
-                Save Changes
-              </Button>
+              <button
+                type="submit"
+                form="accountForm"
+                className=" bg-primary border overflow-hidden rounded-md text-white font-bold cursor-pointer px-6 py-2 transition-all duration-200 ease-out hover:border-1 hover:border-primary hover:ring-1 ring-primary  hover:bg-white hover:text-primary"
+              >
+                Save
+              </button>
             )}
           </DialogFooter>
         </form>
