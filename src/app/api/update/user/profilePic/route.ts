@@ -6,7 +6,7 @@ import axios from "axios";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function PUT(req: Request) {
     const session = await getServerSession(authOptions);
 
     const bucketUrl = process.env.NEXT_PUBLIC_AWS_PROFILE_PIC_BUCKET_URL

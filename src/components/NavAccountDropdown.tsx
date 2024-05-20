@@ -26,6 +26,7 @@ import {
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import { useToast } from "@/components/ui/use-toast.ts";
+import stringToGradient from "@/utils/stringToGradient.ts";
 import { acceptedImageTypes } from "@/utils/types.ts";
 import axios from "axios";
 import { ChevronDown } from "lucide-react";
@@ -70,7 +71,7 @@ export default function NavAccountDropdown() {
           duration: 3000,
         });
       } else if (artistName === undefined || artistName === "") {
-        const res = await axios.post("/api/upload/profilepic", data);
+        const res = await axios.put("/api/update/user/profilePic", data);
 
         const formattedFileName = image.name.replace(" ", "+");
 
@@ -91,7 +92,7 @@ export default function NavAccountDropdown() {
           formattedFileName;
 
         const res = await axios.put("/api/update/user/artistName", data);
-        const res2 = await axios.post("/api/upload/profilepic", data);
+        const res2 = await axios.put("/api/update/user/profilePic", data);
 
         setPreview(imageUrl);
 
@@ -120,7 +121,11 @@ export default function NavAccountDropdown() {
           <div className="flex items-center cursor-pointer gap-2 p-2 mr-2 rounded">
             <Avatar className="border">
               <AvatarImage src={session?.user.image} />
-              <AvatarFallback className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+              <AvatarFallback
+                style={{
+                  backgroundImage: stringToGradient(`${session?.user.id}`),
+                }}
+              >
                 {session?.user?.name?.charAt(0)}
               </AvatarFallback>
             </Avatar>
