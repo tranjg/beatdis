@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useToast } from "@/components/ui/use-toast.ts";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
@@ -14,18 +14,46 @@ import {
 import SongInfo from "@/components/SongInfo";
 import axios from "axios";
 import formattedFilename from "@/utils/formattedFilename.ts";
+import { arrayBuffer } from "stream/consumers";
 
 export default function FileUpload() {
+  interface InputData {
+    id: string;
+    songName: string;
+    artistName: string;
+  }
+
   const [files, setFiles] = useState<Object>([]);
   const [error, setError] = useState("");
   const [musicSrc, setMusicSrc] = useState("");
+
+  const [songsData, setSongsData] = useState<InputData[]>([]);
 
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    console.log(songsData);
     if (!files) return;
+  };
+
+  const handleInputChange = (id: string, data: InputData) => {
+    if (songsData.length == 0) {
+      setSongsData([data]);
+    } else {
+      const prevSongsData = songsData.map((songData) => {
+        if (songData.id == id) {
+          let songs = songsData;
+          const foundSongIndex = songs.findIndex((value) => value.id == id);
+          songs.splice(foundSongIndex, 1);
+          songs.push(data);
+
+          setSongsData(songs);
+        } else {
+          setSongsData([data, songData]);
+        }
+      });
+    }
   };
 
   return (
@@ -45,7 +73,13 @@ export default function FileUpload() {
               arrayFiles.map((file: File, index: number) => {
                 const data = new FormData();
                 data.append("fileName", formattedFilename(file.name));
-                return <SongInfo key={index} data={data} />;
+                return (
+                  <SongInfo
+                    key={index}
+                    data={data}
+                    onInputChange={handleInputChange}
+                  />
+                );
               })
             )}
 

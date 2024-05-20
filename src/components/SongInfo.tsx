@@ -6,21 +6,23 @@ import formattedFilename from "@/utils/formattedFilename.ts";
 import axios from "axios";
 import { use, useEffect, useState } from "react";
 
-export default function SongInfo(props: { data: FormData }) {
+export default function SongInfo({ ...props }) {
   const [song, setSong] = useState();
+  const [songName, setSongName] = useState("");
+  const [artistName, setArtistName] = useState("");
 
-  const getSong = async () => {
-    const songData = await axios.postForm("/api/get/song", props.data);
-    setSong(songData.data);
+  const getSong = async (data: FormData) => {
+    const songData = await axios.postForm("/api/get/song", data);
+    setSong(await songData.data);
   };
 
   useEffect(() => {
-    getSong();
-  }, []);
+    getSong(props.data);
+  }, [props.data]);
   return (
     <div className="flex flex-col gap-6 my-6 p-4 border rounded-md">
       <div className="flex place-items-center">
-        <label className="cursor-pointer hover:contrast-50" htmlFor="avatar">
+        <label className="cursor-pointer hover:contrast-50" htmlFor="cover">
           <div className="flex justify-center place-items-center border rounded-md h-[100px] w-[100px]">
             Song Cover
           </div>
@@ -43,17 +45,24 @@ export default function SongInfo(props: { data: FormData }) {
             type="text"
             className="border-0 focus-visible:ring-0 outline-none"
             onChange={(e) => {
-              console.log(song.name);
-              // console.log(e);
+              props.onInputChange(`${song?.id}`, {
+                id: `${song.id}`,
+                songName: e.target.value,
+                artistName,
+              });
             }}
           />
           <Input
-            id="songName"
-            defaultValue={"Artist Name"}
+            id="artistName"
+            defaultValue={song ? `${song.artist}` : ""}
             type="text"
             className="border-0 font-bold focus-visible:ring-0 outline-none"
             onChange={(e) => {
-              console.log(e);
+              props.onInputChange(`${song?.id}`, {
+                id: `${song.id}`,
+                songName,
+                artistName: e.target.value,
+              });
             }}
           />
         </div>
