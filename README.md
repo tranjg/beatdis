@@ -2,9 +2,9 @@
 
 ## Introduction
 
-Sending beats just got easier.
+Organizing beats just got better.
 
-BeatDis is a web solution for musicians/producers/artists to help organize, store, and send their music files. You can tag your files, create packs, and send them to collaborators. 
+BeatDis is a web solution for musicians/producers/artists to help organize, store, and send their music files. You can tag your files, create packs, and send them to collaborators.
 
 ## Techstack
 
@@ -13,6 +13,3 @@ Next.js, Prisma, MongoDB
 ## Developers
 
 Justin Tran - Fullstack Developer
-
-
-
