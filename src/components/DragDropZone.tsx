@@ -10,6 +10,7 @@ import { authOptions } from "@/utils/authOptions.ts";
 
 interface Props {
   setFiles: Dispatch<SetStateAction<Object>>;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function DragDropZone(props: Props) {
@@ -32,6 +33,7 @@ export default function DragDropZone(props: Props) {
         if (songExists.data.song == null) {
           const res = await axios.postForm("/api/upload/song", data);
           props.setFiles([acceptedFiles]);
+          props.setIsLoading(true);
           if (!res.data) {
             setError("File upload failed.");
           }

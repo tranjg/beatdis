@@ -7,6 +7,7 @@ import "react-h5-audio-player/lib/styles.css";
 import DragDropZone from "@/components/DragDropZone.tsx";
 import SongPreview from "@/components/SongInfo";
 import {
+  DialogClose,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -15,17 +16,20 @@ import SongInfo from "@/components/SongInfo";
 import axios from "axios";
 import formattedFilename from "@/utils/formattedFilename.ts";
 import { arrayBuffer } from "stream/consumers";
+import { LoadingSpinner } from "@/components/ui/loading-spinner.tsx";
 
 export default function FileUpload() {
   interface InputData {
     id: string;
     songName: string;
     artistName: string;
+    imagePath: File;
   }
 
   const [files, setFiles] = useState<Object>([]);
   const [error, setError] = useState("");
   const [musicSrc, setMusicSrc] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const [songsData, setSongsData] = useState<InputData[]>([]);
 
@@ -47,14 +51,19 @@ export default function FileUpload() {
           const foundSongIndex = songs.findIndex((value) => value.id == id);
           songs.splice(foundSongIndex, 1);
           songs.push(data);
-
           setSongsData(songs);
         } else {
-          setSongsData([data, songData]);
+          setSongsData([data, ...songsData]);
         }
       });
     }
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  }, [files]);
 
   return (
     <div className="flex flex-col">
@@ -63,10 +72,15 @@ export default function FileUpload() {
           <DialogHeader className="py-4">
             <DialogTitle>Upload your files</DialogTitle>
           </DialogHeader>
-          <DragDropZone setFiles={setFiles} />
+          <DragDropZone setFiles={setFiles} setIsLoading={setIsLoading} />
         </>
       )}
-      {Object.values(files).length > 0 && (
+      {isLoading && (
+        <div className="flex justify-center place-items-center w-[50vh] h-[20vh]">
+          <LoadingSpinner />
+        </div>
+      )}
+      {Object.values(files).length > 0 && !isLoading && (
         <div className="flex w-full items-center">
           <form onSubmit={handleSubmit} className="flex w-full flex-col gap-7">
             {Object.values(files).map((arrayFiles) =>
@@ -84,12 +98,14 @@ export default function FileUpload() {
             )}
 
             <DialogFooter>
+              {/* <DialogClose asChild> */}
               <button
                 type="submit"
                 className="bg-primary border overflow-hidden rounded-md text-white font-bold cursor-pointer px-6 py-2 transition-all duration-200 ease-out hover:border-1 hover:border-primary hover:ring-1 ring-primary  hover:bg-white hover:text-primary"
               >
                 Save
               </button>
+              {/* </DialogClose> */}
             </DialogFooter>
           </form>
         </div>
