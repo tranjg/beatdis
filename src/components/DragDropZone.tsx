@@ -62,11 +62,10 @@ export default function DragDropZone(props: Props) {
   return (
     <div
       {...getRootProps()}
-      className="flex justify-center border border-dashed p-20 rounded-md transition hover:bg-slate-400/30"
+      className="flex justify-center place-items-center border border-dashed p-20 rounded-md transition hover:bg-slate-400/30 w-[50vh] h-[20vh]"
     >
       <label>
-        Click to upload or <span className="font-semibold">drag and drop</span>{" "}
-        your files here.
+        <span className="font-semibold">Click to upload</span> or drag and drop
       </label>
       <input {...getInputProps()} />
       {error && (
