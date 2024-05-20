@@ -39,6 +39,7 @@ export async function POST(req: Request) {
         const newSong = await prisma.song.create({
             data: { 
                 filePath: songUrl,
+                imagePath: "",
                 name: `${formattedName}`,
                 tags: [],
                 artist: `${fileArtist}`,

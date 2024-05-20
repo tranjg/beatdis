@@ -23,7 +23,7 @@ model Song {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String   @unique
   filePath  String
-  // imagePath     String
+  imagePath String
   user      User?    @relation(fields: [userId], references: [id])
   userId    String?  @db.ObjectId
   artist    String
