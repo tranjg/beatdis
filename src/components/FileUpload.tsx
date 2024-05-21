@@ -15,7 +15,6 @@ import {
 import SongInfo from "@/components/SongInfo";
 import axios from "axios";
 import formattedFilename from "@/utils/formattedFilename.ts";
-import { arrayBuffer } from "stream/consumers";
 import { LoadingSpinner } from "@/components/ui/loading-spinner.tsx";
 
 export default function FileUpload() {
@@ -23,7 +22,7 @@ export default function FileUpload() {
     id: string;
     songName: string;
     artistName: string;
-    imagePath: File;
+    image: File;
   }
 
   const [files, setFiles] = useState<Object>([]);
@@ -37,7 +36,22 @@ export default function FileUpload() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(songsData);
+    songsData.map(async (songData) => {
+      const data = new FormData();
+      data.append("id", songData.id);
+      songData.artistName.length > 0 &&
+        data.append("artist", songData.artistName);
+      songData.image && data.append("image", songData.image);
+      songData.image && data.append("imageName", songData.image.name);
+      songData.image && data.append("imageType", songData.image.type);
+      songData.songName.length > 0 && data.append("name", songData.songName);
+      const updatedSong = await axios.put("/api/update/song", data);
+    });
+    toast({
+      variant: "success",
+      title: "Changes Saved",
+      duration: 3000,
+    });
     if (!files) return;
   };
 
@@ -98,14 +112,14 @@ export default function FileUpload() {
             )}
 
             <DialogFooter>
-              {/* <DialogClose asChild> */}
-              <button
-                type="submit"
-                className="bg-primary border overflow-hidden rounded-md text-white font-bold cursor-pointer px-6 py-2 transition-all duration-200 ease-out hover:border-1 hover:border-primary hover:ring-1 ring-primary  hover:bg-white hover:text-primary"
-              >
-                Save
-              </button>
-              {/* </DialogClose> */}
+              <DialogClose asChild>
+                <button
+                  type="submit"
+                  className="bg-primary border overflow-hidden rounded-md text-white font-bold cursor-pointer px-6 py-2 transition-all duration-200 ease-out hover:border-1 hover:border-primary hover:ring-1 ring-primary  hover:bg-white hover:text-primary"
+                >
+                  Save
+                </button>
+              </DialogClose>
             </DialogFooter>
           </form>
         </div>
