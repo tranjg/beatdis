@@ -28,7 +28,7 @@ export default function FileUpload() {
   const [files, setFiles] = useState<Object>([]);
   const [error, setError] = useState("");
   const [musicSrc, setMusicSrc] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [songsData, setSongsData] = useState<InputData[]>([]);
 
@@ -73,12 +73,6 @@ export default function FileUpload() {
     }
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-  }, [files]);
-
   return (
     <div className="flex flex-col">
       {Object.values(files).length == 0 && (
@@ -89,7 +83,7 @@ export default function FileUpload() {
           <DragDropZone setFiles={setFiles} setIsLoading={setIsLoading} />
         </>
       )}
-      {isLoading && (
+      {Object.values(files).length > 0 && isLoading && (
         <div className="flex justify-center place-items-center w-[50vh] h-[20vh]">
           <LoadingSpinner />
         </div>

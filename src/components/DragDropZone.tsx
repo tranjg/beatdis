@@ -33,7 +33,7 @@ export default function DragDropZone(props: Props) {
         if (songExists.data.song == null) {
           const res = await axios.postForm("/api/upload/song", data);
           props.setFiles([acceptedFiles]);
-          props.setIsLoading(true);
+          props.setIsLoading(false);
           if (!res.data) {
             setError("File upload failed.");
           }

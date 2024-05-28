@@ -31,6 +31,7 @@ import { acceptedImageTypes } from "@/utils/types.ts";
 import axios from "axios";
 import { ChevronDown } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function NavAccountDropdown() {
@@ -148,7 +149,12 @@ export default function NavAccountDropdown() {
               Account Settings
             </DropdownMenuItem>
           </DialogTrigger>
-          <DropdownMenuItem onClick={() => signOut()} className="text-red-500">
+          <DropdownMenuItem
+            onClick={() => {
+              signOut({ callbackUrl: "/login", redirect: true });
+            }}
+            className="text-red-500"
+          >
             Log Out
           </DropdownMenuItem>
         </DropdownMenuContent>
