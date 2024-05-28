@@ -15,7 +15,7 @@ export default function Files() {
 
   const [songs, setSongs] = useState();
 
-  if (!session) {
+  if (!session.data) {
     redirect("/login");
   }
 
