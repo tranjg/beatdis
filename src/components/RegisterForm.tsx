@@ -3,33 +3,38 @@
 import { toast, useToast } from "@/components/ui/use-toast.ts";
 import axios from "axios";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export default function RegisterForm() {
-  const [artistName, setArtistName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [retypePassword, setRetypePassword] = useState("");
   const [error, setError] = useState("");
+  const [form, setForm] = useState({
+    artistName: "",
+    email: "",
+    password: "",
+    retypePassword: "",
+  });
 
   const { toast } = useToast();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!artistName || !email || !password) {
+    if (!form.artistName || !form.email || !form.password) {
       setError("All fields are required.");
       return;
     }
 
-    if (password !== retypePassword) {
+    if (form.password !== form.retypePassword) {
       setError("Passwords must match.");
       return;
     }
 
     try {
-      const resUserExists = await axios.post("/api/userExists", { email });
+      const resUserExists = await axios.post("/api/userExists", {
+        email: form.email,
+      });
 
       const { user } = await resUserExists.data;
 
@@ -38,20 +43,16 @@ export default function RegisterForm() {
         return;
       }
 
-      const res = await axios.post("/api/register", {
-        artistName,
-        email,
-        password,
-      });
+      const res = await axios.post("/api/register", { ...form });
 
       if (res.data) {
-        const form = e.target as HTMLFormElement;
+        setError("");
         toast({
           variant: "success",
           title: "Registration successful",
           duration: 3000,
         });
-        redirect("/login");
+        router.push("/login");
       } else {
         setError("User registration failed.");
       }
@@ -67,26 +68,38 @@ export default function RegisterForm() {
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <input
-            onChange={(e) => setArtistName(e.target.value)}
+            onChange={(e) =>
+              setForm({ ...form, [e.target.name]: e.target.value })
+            }
             type="text"
+            name="artistName"
             placeholder="Artist Name"
             className="w-[400px] border rounded-md border-gray-300 py-2 px-6 bg-zinc-200/20 focus:outline-none focus:ring-primary focus:ring-1"
           />
           <input
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) =>
+              setForm({ ...form, [e.target.name]: e.target.value })
+            }
             type="text"
+            name="email"
             placeholder="Email"
             className="w-[400px] border rounded-md border-gray-300 py-2 px-6 bg-zinc-200/20 focus:outline-none focus:ring-primary focus:ring-1"
           />
           <input
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) =>
+              setForm({ ...form, [e.target.name]: e.target.value })
+            }
             type="password"
+            name="password"
             placeholder="Password"
             className="w-[400px] border rounded-md border-gray-300 py-2 px-6 bg-zinc-200/20 focus:outline-none focus:ring-primary focus:ring-1"
           />
           <input
-            onChange={(e) => setRetypePassword(e.target.value)}
+            onChange={(e) =>
+              setForm({ ...form, [e.target.name]: e.target.value })
+            }
             type="password"
+            name="retypePassword"
             placeholder="Re-type password"
             className="w-[400px] border rounded-md border-gray-300 py-2 px-6 bg-zinc-200/20 focus:outline-none focus:ring-primary focus:ring-1"
           />
