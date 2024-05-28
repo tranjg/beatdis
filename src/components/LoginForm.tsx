@@ -6,8 +6,10 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
   const [error, setError] = useState("");
 
   const router = useRouter();
@@ -17,8 +19,7 @@ export default function LoginForm() {
 
     try {
       const res = await signIn("credentials", {
-        email,
-        password,
+        ...form,
         redirect: false,
       });
       if (res.error) {
@@ -39,14 +40,20 @@ export default function LoginForm() {
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <input
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) =>
+              setForm({ ...form, [e.target.name]: e.target.value })
+            }
             type="text"
+            name="email"
             placeholder="Email"
             className="w-[400px] border rounded-md border-gray-300 py-2 px-6 bg-zinc-200/20 focus:outline-none focus:ring-primary focus:ring-1"
           />
           <input
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) =>
+              setForm({ ...form, [e.target.name]: e.target.value })
+            }
             type="password"
+            name="password"
             placeholder="Password"
             className="w-[400px] border rounded-md border-gray-300 py-2 px-6 bg-zinc-200/20 focus:outline-none focus:ring-primary focus:ring-1"
           />
