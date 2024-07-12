@@ -35,7 +35,7 @@ export default function LoginForm() {
 
   return (
     <div className="grid place-items-center h-screen">
-      <div className="shadow-lg p-5 rounded-lg border-t-4 border-primary/40">
+      <div className="flex flex-col min-w-[300px] w-[80%] lg:w-[40%] shadow-lg p-5 rounded-lg border-t-4 border-primary/40">
         <h1 className="text-xl font-bold my-4">Enter your details</h1>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
@@ -46,7 +46,7 @@ export default function LoginForm() {
             type="text"
             name="email"
             placeholder="Email"
-            className="w-[400px] border rounded-md border-gray-300 py-2 px-6 bg-zinc-200/20 focus:outline-none focus:ring-primary focus:ring-1"
+            className="flex w-full border rounded-md border-gray-300 py-2 px-6 bg-zinc-200/20 focus:outline-none focus:ring-primary focus:ring-1"
           />
           <input
             onChange={(e) =>
@@ -55,7 +55,7 @@ export default function LoginForm() {
             type="password"
             name="password"
             placeholder="Password"
-            className="w-[400px] border rounded-md border-gray-300 py-2 px-6 bg-zinc-200/20 focus:outline-none focus:ring-primary focus:ring-1"
+            className="flex w-full border rounded-md border-gray-300 py-2 px-6 bg-zinc-200/20 focus:outline-none focus:ring-primary focus:ring-1"
           />
           <button className="bg-primary border overflow-hidden rounded-md text-white font-bold cursor-pointer px-6 py-2 transition-all duration-200 ease-out hover:border-1 hover:border-primary  hover:bg-white hover:text-primary">
             Login
