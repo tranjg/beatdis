@@ -43,6 +43,7 @@ export async function POST(req: Request) {
                 name: `${formattedName}`,
                 tags: [],
                 artist: `${fileArtist}`,
+                bpm: "",
                 user:{
                     connect: {id: `${session?.user.id}`},
                  },

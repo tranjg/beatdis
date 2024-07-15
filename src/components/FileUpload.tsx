@@ -22,6 +22,7 @@ export default function FileUpload() {
     id: string;
     songName: string;
     artistName: string;
+    bpm: string;
     image: File;
   }
 
@@ -41,10 +42,12 @@ export default function FileUpload() {
       data.append("id", songData.id);
       songData.artistName.length > 0 &&
         data.append("artist", songData.artistName);
+      data.append("bpm", songData.bpm);
       songData.image && data.append("image", songData.image);
       songData.image && data.append("imageName", songData.image.name);
       songData.image && data.append("imageType", songData.image.type);
       songData.songName.length > 0 && data.append("name", songData.songName);
+
       const updatedSong = await axios.put("/api/update/song", data);
     });
     toast({

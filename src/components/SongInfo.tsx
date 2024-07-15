@@ -15,6 +15,7 @@ export default function SongInfo({ ...props }) {
   const [song, setSong] = useState<Song>();
   const [songName, setSongName] = useState("");
   const [artistName, setArtistName] = useState("");
+  const [bom, setBPM] = useState("");
   const [image, setImage] = useState<File>();
 
   const [preview, setPreview] = useState("");
@@ -119,19 +120,27 @@ export default function SongInfo({ ...props }) {
           />
         </div>
       </div>
-      {/* <div className="flex place-items-start">
+      <div className="flex place-items-start">
         <div className="flex flex-col w-full gap-4">
           <Label className="font-bold text-sm">BPM</Label>
           <Input
             id="bpm"
+            defaultValue={song ? `${song.bpm}` : ""}
             placeholder="Enter the BPM"
             type="number"
             onChange={(e) => {
-              console.log(e);
+              setBPM(e.target.value);
+              props.onInputChange(`${song?.id}`, {
+                id: `${song?.id}`,
+                image,
+                songName,
+                artistName,
+                bpm: e.target.value,
+              });
             }}
           />
         </div>
-      </div> */}
+      </div>
       {/* <div className="flex place-items-start">
         <div className="flex flex-col w-full gap-4">
           <Label className="font-bold text-sm">Key</Label>

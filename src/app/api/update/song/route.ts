@@ -42,6 +42,19 @@ export async function PUT(req: Request) {
             console.log("song name updated")
         }
 
+        const bpm: string = data.get("bpm") as unknown as string;
+
+        if (bpm) {
+            const updateBPM = await prisma.song.update({
+                where: {
+                    id: id
+                },
+                data: {
+                    bpm: bpm,
+                }
+            })
+        }
+
         const image: File = data.get("image") as unknown as File;
         const imageName: string = data.get("imageName") as unknown as string;
         const imageType: string = data.get("imageType") as unknown as string;

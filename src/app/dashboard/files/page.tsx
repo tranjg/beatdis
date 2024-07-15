@@ -1,12 +1,11 @@
 "use client";
 
-import { Song, columns } from "@/app/dashboard/files/columns.tsx";
-import { DataTable } from "@/app/dashboard/files/data-table.tsx";
+import { Song, columns } from "@/components/data-table/columns.tsx";
+import { DataTable } from "@/components/data-table/DataTable.tsx";
 import FileUpload from "@/components/FileUpload.tsx";
 import TestButton from "@/components/TestButton.tsx";
 import UploadDialog from "@/components/UploadDialog.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { getSongs } from "@/lib/utils.ts";
 import { authOptions } from "@/utils/authOptions";
 import axios from "axios";
 import { getServerSession } from "next-auth";
@@ -31,7 +30,7 @@ export default function Files() {
   useEffect(() => {
     getSongs();
   }, []);
-  
+
   return (
     <div className="flex flex-col place-items-start h-screen p-5 ">
       <div className="flex place-content-end p-5 w-full">

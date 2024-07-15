@@ -8,6 +8,7 @@ export type Song = {
   id: string;
   name: string;
   artist: string;
+  bpm: string;
 };
 
 export const columns: ColumnDef<Song>[] = [
@@ -18,5 +19,9 @@ export const columns: ColumnDef<Song>[] = [
   {
     accessorKey: "artist",
     header: "Artist",
+  },
+  {
+    accessorKey: "bpm",
+    header: "BPM",
   },
 ];
