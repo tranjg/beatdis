@@ -1,17 +1,12 @@
 "use client";
 
-import { Song, columns } from "@/components/data-table/columns.tsx";
+import { columns } from "@/components/data-table/columns.tsx";
 import { DataTable } from "@/components/data-table/DataTable.tsx";
-import FileUpload from "@/components/FileUpload.tsx";
-import TestButton from "@/components/TestButton.tsx";
 import UploadDialog from "@/components/UploadDialog.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { authOptions } from "@/utils/authOptions";
 import axios from "axios";
-import { getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import { cache, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Files() {
   const session = useSession();
@@ -33,11 +28,10 @@ export default function Files() {
 
   return (
     <div className="flex flex-col place-items-start h-screen p-5 ">
-      <div className="flex place-content-end p-5 w-full">
+      <div className="flex place-content-end my-3 w-full">
         <UploadDialog />
       </div>
-      <div className="flex justify-center w-full p-5">
-        {/* <TestButton /> */}
+      <div className="flex justify-center w-full">
         <DataTable columns={columns} data={songs} />
       </div>
     </div>

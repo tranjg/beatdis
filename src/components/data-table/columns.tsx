@@ -21,6 +21,7 @@ export const columns: ColumnDef<Song>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="hover:bg-transparent focus:ring-0 px-0 justify-start"
         >
           Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -35,6 +36,7 @@ export const columns: ColumnDef<Song>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="hover:bg-transparent focus:ring-0 px-0 justify-start"
         >
           Artist
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -49,6 +51,7 @@ export const columns: ColumnDef<Song>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="hover:bg-transparent focus:ring-0 px-0 justify-start"
         >
           BPM
           <ArrowUpDown className="ml-2 h-4 w-4" />
