@@ -26,12 +26,12 @@ export default function DashboardLayout({
         <Sidebar />
         <main className="w-full h-full">{children}</main>
       </section>
-      <div className="flex w-full sticky bottom-0">
+      {/* <div className="flex w-full sticky bottom-0">
         <AudioPlayer
           playList={playList}
           activeUI={{ all: true, progress: "bar" }}
         />
-      </div>
+      </div> */}
     </section>
   );
 }
