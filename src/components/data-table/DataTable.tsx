@@ -63,7 +63,7 @@ export const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
   if (rowA.columnFiltersMeta[columnId]) {
     dir = compareItems(
       rowA.columnFiltersMeta[columnId]?.itemRank!,
-      rowB.columnFiltersMeta[columnId]?.itemRank!
+      rowB.columnFiltersMeta[columnId]?.itemRank!,
     );
   }
 
@@ -97,7 +97,12 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     enableMultiRowSelection: false,
   });
-  console.log(table.getSelectedRowModel().rows[0]?.original);
+
+  const selectedRow = table.getGroupedSelectedRowModel().rows[0];
+  const indexOfSelectedRow = table
+    .getRowModel()
+    .rows.findIndex((row) => row.index == selectedRow?.index);
+  const selectedRowData = selectedRow?.original
   return (
     <div className="w-full">
       <div className="py-3">
@@ -118,9 +123,9 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                     </TableHead>
                   );
                 })}
@@ -139,7 +144,7 @@ export function DataTable<TData, TValue>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}
