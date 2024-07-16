@@ -2,8 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useToast } from "@/components/ui/use-toast.ts";
-import AudioPlayer from "react-h5-audio-player";
-import "react-h5-audio-player/lib/styles.css";
 import DragDropZone from "@/components/DragDropZone.tsx";
 import SongPreview from "@/components/SongInfo";
 import {

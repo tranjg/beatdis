@@ -39,8 +39,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-dropzone": "^14.2.3",
-    "react-h5-audio-player": "^3.9.1",
     "react-icons": "^5.1.0",
+    "react-modern-audio-player": "^1.4.0-rc.2",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7"
   },
