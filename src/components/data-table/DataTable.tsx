@@ -102,7 +102,7 @@ export function DataTable<TData, TValue>({
   const indexOfSelectedRow = table
     .getRowModel()
     .rows.findIndex((row) => row.index == selectedRow?.index);
-  const selectedRowData = selectedRow?.original
+  const selectedRowData = selectedRow?.original;
   return (
     <div className="w-full">
       <div className="py-3">
@@ -138,7 +138,11 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  onClick={row.getToggleSelectedHandler()}
+                  onClick={
+                    selectedRow.id == row.id
+                      ? undefined
+                      : row.getToggleSelectedHandler()
+                  }
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
