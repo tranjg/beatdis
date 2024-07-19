@@ -28,10 +28,7 @@ export default function Files() {
 
   return (
     <div className="flex flex-col place-items-start h-screen p-5 ">
-      <div className="flex place-content-end my-3 w-full">
-        <UploadDialog />
-      </div>
-      <div className="flex justify-center w-full">
+      <div className="flex justify-center p-3 mt-2 w-full">
         <DataTable columns={columns} data={songs} />
       </div>
     </div>

@@ -32,6 +32,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { useState } from "react";
+import UploadDialog from "../UploadDialog";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -63,7 +64,7 @@ export const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
   if (rowA.columnFiltersMeta[columnId]) {
     dir = compareItems(
       rowA.columnFiltersMeta[columnId]?.itemRank!,
-      rowB.columnFiltersMeta[columnId]?.itemRank!
+      rowB.columnFiltersMeta[columnId]?.itemRank!,
     );
   }
 
@@ -105,15 +106,19 @@ export function DataTable<TData, TValue>({
   const selectedRowData = selectedRow?.original;
   return (
     <div className="w-full">
-      <div className="py-3">
-        <Input
-          value={globalFilter ?? ""}
-          onChange={(e) => setGlobalFilter(String(e.target.value))}
-          placeholder="Search name, artist..."
-        />
+      <div className="flex w-full justify-between">
+        <label className="flex items-baseline w-1/2 gap-x-3">
+          <Input
+            value={globalFilter ?? ""}
+            className="border-gray-300"
+            onChange={(e) => setGlobalFilter(String(e.target.value))}
+            placeholder="Search name, artist..."
+          />
+        </label>
+        <UploadDialog />
       </div>
-      <div className="w-full">
-        <Table className="border-separate border-spacing-y-4">
+      <div className="w-full mt-5">
+        <Table className="border-spacing-y-4">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -124,7 +129,7 @@ export function DataTable<TData, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -148,7 +153,7 @@ export function DataTable<TData, TValue>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}
