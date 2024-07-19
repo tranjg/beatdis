@@ -63,7 +63,7 @@ export const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
   if (rowA.columnFiltersMeta[columnId]) {
     dir = compareItems(
       rowA.columnFiltersMeta[columnId]?.itemRank!,
-      rowB.columnFiltersMeta[columnId]?.itemRank!,
+      rowB.columnFiltersMeta[columnId]?.itemRank!
     );
   }
 
@@ -112,8 +112,8 @@ export function DataTable<TData, TValue>({
           placeholder="Search name, artist..."
         />
       </div>
-      <div className="rounded-md border w-full p-2">
-        <Table>
+      <div className="w-full">
+        <Table className="border-separate border-spacing-y-4">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -123,9 +123,9 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
                   );
                 })}
@@ -139,7 +139,7 @@ export function DataTable<TData, TValue>({
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                   onClick={
-                    selectedRow.id == row.id
+                    selectedRow?.id == row.id
                       ? undefined
                       : row.getToggleSelectedHandler()
                   }
@@ -148,7 +148,7 @@ export function DataTable<TData, TValue>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext(),
+                        cell.getContext()
                       )}
                     </TableCell>
                   ))}
