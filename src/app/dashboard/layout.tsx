@@ -1,8 +1,8 @@
 "use client";
 import Navbar from "@/components/Navbar.tsx";
 import Sidebar from "@/components/Sidebar.tsx";
+import AudioPlayer from "@/components/audio-player/AudioPlayer";
 import { ActivitySquareIcon } from "lucide-react";
-import AudioPlayer from "react-modern-audio-player";
 
 const playList = [
   {
@@ -26,12 +26,9 @@ export default function DashboardLayout({
         <Sidebar />
         <main className="w-full h-full">{children}</main>
       </section>
-      {/* <div className="flex w-full sticky bottom-0">
-        <AudioPlayer
-          playList={playList}
-          activeUI={{ all: true, progress: "bar" }}
-        />
-      </div> */}
+      <div className="flex w-full sticky bottom-0">
+        <AudioPlayer />
+      </div>
     </section>
   );
 }
