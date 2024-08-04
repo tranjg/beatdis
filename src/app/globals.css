@@ -34,6 +34,7 @@
 
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 246.67 100% 1.76%;
     --foreground: 249.09 76.74% 91.57%;
@@ -68,9 +69,7 @@
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -82,4 +81,14 @@ input {
 
 button {
   @apply focus:outline-none focus:border-primary focus:ring-primary focus:ring-1;
+}
+
+@layer components {
+  .range {
+    @apply
+    appearance-none w-full h-3 bg-transparent outline-0 border-secondary/75 focus:ring-0 hover:outline-none 
+  } ::-webkit-slider-thumb{
+    @apply
+    appearance-none w-4 h-4 outline-0
+  }
 }

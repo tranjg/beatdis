@@ -1,9 +1,16 @@
-import { CirclePlay, FastForward, Rewind } from "lucide-react";
+import { CirclePlay, FastForward, Rewind, Repeat, Volume2 } from "lucide-react";
 import { Button } from "../ui/button";
 
 export default function Controls() {
   return (
     <div className="flex w-full justify-center items-center gap-5 ">
+      <Button
+        variant={"ghost"}
+        className="focus:outline-0 focus:ring-0 focus:bg-transparent hover:bg-transparent hover:outline-0"
+        onClick={(e) => e.preventDefault()}
+      >
+        <Repeat size={32}/>
+      </Button>
       <Button
         variant={"ghost"}
         className="focus:outline-0 focus:ring-0 focus:bg-transparent hover:bg-transparent hover:outline-0"
@@ -24,6 +31,12 @@ export default function Controls() {
         onClick={(e) => e.preventDefault()}
       >
         <FastForward size={32} />
+      </Button><Button
+        variant={"ghost"}
+        className="focus:outline-0 focus:ring-0 focus:bg-transparent hover:bg-transparent hover:outline-0"
+        onClick={(e) => e.preventDefault()}
+      >
+        <Volume2 size={32}/>
       </Button>
     </div>
   );
